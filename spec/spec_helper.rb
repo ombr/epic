@@ -13,10 +13,6 @@ module Features
 end
 
 RSpec.configure do |config|
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-
   config.include Features, type: :feature
   config.include Formulaic::Dsl, type: :feature
 

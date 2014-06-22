@@ -1,0 +1,6 @@
+Studio Cui Cui
+%ul
+  - @images.each do |image|
+    %li
+      = image.md5
+      = image_tag image.image.url(:thumb)

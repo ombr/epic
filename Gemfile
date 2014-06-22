@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 
-gem 'airbrake'
 gem 'bourbon', '~> 3.2.1'
 gem 'coffee-rails'
 gem 'delayed_job_active_record'
@@ -20,6 +19,15 @@ gem 'simple_form'
 gem 'title'
 gem 'uglifier'
 gem 'unicorn'
+
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'guard'
+gem 'fog'
+gem 'rails_12factor', groups: [:development, :production]
+gem 'httparty'
+gem 'haml-rails'
+gem 'sentry-raven'
 
 group :development do
   gem 'foreman'
