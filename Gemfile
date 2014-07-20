@@ -35,6 +35,7 @@ gem 'haml-rails'
 gem 'sentry-raven'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'pusher'
+gem 'exifr'
 
 group :development do
   gem 'foreman'

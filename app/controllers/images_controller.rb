@@ -51,7 +51,7 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.where('image IS NOT NULL')
+    @images = Image.where('image IS NOT NULL').order(:taken_at)
   end
 
   def image_params

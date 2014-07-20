@@ -11,7 +11,9 @@ class Image < ActiveRecord::Base
   end
 
   def process
-    self.image = open(original.url)
+    file = open(original.url)
+    self.image = file
+    self.taken_at = EXIFR::JPEG.new(file).date_time
     save!
     Pusher.trigger_async('event', 'new-image', {}) if Pusher.key.present?
   end
