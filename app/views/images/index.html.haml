@@ -1,8 +1,9 @@
-#images.container-fluid
+#images.container
   %h1 Studio Cui Cui
   .row
     .col-xs-12
       .images{data: { event: 'event' } }
         - @images.each do |image|
-          = link_to image_path(image) do
-            = image_tag image.url(:thumbnail), class: 'image', size: '250x200'
+          .col-xs-4.col-sm-3.col-md-2.col-lg-2
+            = link_to image_path(image) do
+              = image_tag image.url(:thumbnail), class: 'image img-responsive', size: '250x200'

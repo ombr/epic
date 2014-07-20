@@ -39,8 +39,7 @@ class ImagesController < ApplicationController
 
   def show
     @image = Image.find_by_md5(params[:id])
-    fail ActiveRecord::RecordNotFound if @image.nil?
-    render nothing: true
+    render nothing: true, status: 404 if @image.nil?
   end
 
   def create
