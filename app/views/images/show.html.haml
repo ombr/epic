@@ -1,4 +1,8 @@
-.row
-  .col-xs-12
-    = link_to t('.back'), root_path, class: 'btn'
+.viewer
+  .image
     = image_tag @image.url(:full), class: 'img-responsive'
+- unless params[:id] == 'random'
+  = link_to root_path, class: 'btn btn-default btn-lg back' do
+    .fa.fa-home
+- content_for :head do
+  %meta{ 'http-equiv' => 'refresh', content: 5 }
