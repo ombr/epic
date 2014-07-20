@@ -1,4 +1,8 @@
 $ ->
+
+  $('body').on('click', '#new-images', ()->
+    $(this).hide()
+  )
   $body = $('body')
   pusher_key = $body.data('pusher-key')
   if pusher_key
@@ -6,7 +10,7 @@ $ ->
       pusher = new Pusher(pusher_key, cluster: $body.data('pusher-cluster'))
       channel = pusher.subscribe('event')
       channel.bind 'new-image', ->
-        console.log 'RELOAD ?'
+        $('#new-images').show()
         $.get window.location, (data)->
           selector = ".images[data-event='#{"event"}']"
           $(selector).replaceWith($(data).find(selector).parent().html())
