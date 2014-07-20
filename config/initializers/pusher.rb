@@ -1,0 +1,1 @@
+Pusher.logger = Rails.logger

@@ -1,6 +1,8 @@
-Studio Cui Cui
-%ul
-  - @images.each do |image|
-    %li
-      = image.md5
-      = image_tag image.image.url(:thumb)
+#images.container-fluid
+  %h1 Studio Cui Cui
+  .row
+    .col-xs-12
+      .images{data: { event: 'event' } }
+        - @images.each do |image|
+          = link_to image_path(image) do
+            = image_tag image.url(:thumbnail), class: 'image', size: '250x200'
