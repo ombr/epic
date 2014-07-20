@@ -10,8 +10,8 @@ $ ->
       pusher = new Pusher(pusher_key, cluster: $body.data('pusher-cluster'))
       channel = pusher.subscribe('event')
       channel.bind 'new-image', ->
-        $('#new-images').show()
         $.get window.location, (data)->
           selector = ".images[data-event='#{"event"}']"
           $(selector).replaceWith($(data).find(selector).parent().html())
+          $('#new-images').show()
 
