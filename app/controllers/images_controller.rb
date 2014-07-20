@@ -52,7 +52,7 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.all
+    @images = Image.where('image IS NOT NULL')
   end
 
   def image_params

@@ -6,7 +6,7 @@ $ ->
       pusher = new Pusher(pusher_key, cluster: $body.data('pusher-cluster'))
       channel = pusher.subscribe('event')
       channel.bind 'new-image', ->
-        alert 'RELOAD ?'
+        console.log 'RELOAD ?'
         $.get window.location, (data)->
           selector = ".images[data-event='#{"event"}']"
           $(selector).replaceWith($(data).find(selector).parent().html())
