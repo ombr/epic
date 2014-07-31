@@ -40,6 +40,7 @@ class ImagesController < ApplicationController
   def show
     @image = Image.find_by_md5(params[:id])
     @image = Image.find(Image.where('image IS NOT NULL').pluck(:id).sample) if params[:id] == 'random'
+    render nothing: true, status: :not_found if @image.nil?
   end
 
   def create
