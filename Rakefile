@@ -7,3 +7,5 @@ require 'resque/tasks'
 Rails.application.load_tasks
 task(:default).clear
 task :default => [:spec]
+
+Rake::Task["db:structure:dump"].clear unless Rails.env.development?

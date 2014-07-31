@@ -15,6 +15,13 @@ GIT
       ransack (~> 1.0)
       sass-rails
 
+GIT
+  remote: git://github.com/jkraemer/xmp.git
+  revision: 3e2153f27aafb0b41ba245fa642c0a71a692bde8
+  specs:
+    xmp (0.2.0)
+      nokogiri (~> 1.6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -117,8 +124,6 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    fastimage (1.6.3)
-      addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.3)
     flutie (2.0.0)
     fog (1.23.0)
@@ -178,7 +183,6 @@ GEM
       multi_json (~> 1.8)
     high_voltage (2.2.1)
     hike (1.2.3)
-    htmlentities (4.3.2)
     httparty (0.13.1)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -204,14 +208,6 @@ GEM
     kgio (2.9.2)
     launchy (2.4.2)
       addressable (~> 2.3)
-    link_thumbnailer (2.2.3)
-      activesupport (>= 3.0)
-      fastimage (~> 1.6)
-      json (~> 1.7, >= 1.7.7)
-      net-http-persistent (~> 2.9)
-      nokogiri (~> 1.6)
-      rake (>= 0.9)
-      video_info (~> 2.3)
     listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -233,7 +229,6 @@ GEM
     neat (1.5.1)
       bourbon (>= 3.1)
       sass (~> 3.2.19)
-    net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
@@ -386,10 +381,6 @@ GEM
     uuidtools (2.1.4)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    video_info (2.3.1)
-      addressable
-      htmlentities
-      multi_json
     warden (1.2.3)
       rack (>= 1.0)
     webmock (1.18.0)
@@ -431,7 +422,6 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   launchy
-  link_thumbnailer
   mini_magick
   neat (~> 1.5.1)
   newrelic_rpm (>= 3.7.3)
@@ -456,3 +446,4 @@ DEPENDENCIES
   uglifier
   unicorn
   webmock
+  xmp!

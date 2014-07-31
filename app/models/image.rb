@@ -10,10 +10,27 @@ class Image < ActiveRecord::Base
     end
   end
 
+  def extract_xmp image
+    infos = EXIFR::JPEG.new(image)
+    self.exifs = infos.to_hash
+    xmp = XMP.parse(infos)
+    xmp.namespaces.each do |namespace_name|
+      self.exifs[namespace_name] = {}
+      namespace = xmp.send(namespace_name)
+      namespace.attributes.each do |attr|
+        self.exifs[namespace_name][attr] = namespace.send(attr)
+      end
+    end
+  end
+
+  def events
+    eval(exifs['dc'])['subject']
+  end
+
   def process
     file = open(original.url)
     self.image = file
-    self.taken_at = EXIFR::JPEG.new(file).date_time
+    extract_xmp file
     save!
     Pusher.trigger_async('event', 'new-image', {}) if Pusher.key.present?
   end

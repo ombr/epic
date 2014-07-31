@@ -36,7 +36,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
   # Raise an ActionController::UnpermittedParameters exception when
   # a parameter is not explcitly permitted but is passed anyway.
-  config.action_controller.action_on_unpermitted_parameters = :raise
+  config.action_controller.action_on_unpermitted_parameters = false
 
 
   config.action_mailer.default_url_options = { host: 'epic.local' }

@@ -18,6 +18,7 @@ module Epic
     config.i18n.enforce_available_locales = true
 
     config.active_record.default_timezone = :utc
+    config.active_record.schema_format = :sql
 
     config.generators do |generate|
       generate.helper false
