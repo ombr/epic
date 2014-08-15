@@ -7,7 +7,18 @@ Rails.application.routes.draw do
     ResqueWeb::Engine.eager_load! if Rails.env.development?
     mount ResqueWeb::Engine => '/resque'
   end
-  resources :images, only: [:show, :create, :index, :new] do
+
+  resources :events, only: [:show] do
+    resources :clients, only: [:new, :create]
+  end
+
+  resources :clients, only: [] do
+    resources :events, only: [] do
+      resources :images, only: [:index, :show]
+    end
+  end
+
+  resources :images, only: [:create, :show] do
     collection do
       get :add
     end

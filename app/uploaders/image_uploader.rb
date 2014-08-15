@@ -5,8 +5,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   storage :fog
 
   def filename
-    if original_filename.present? and model
-      return "#{File.basename(model[:original]).parameterize}.jpg"
+    if original_filename.present?
+      if model
+        return "#{File.basename(model.original.path).parameterize}.jpg"
+      end
     end
     super
   end
@@ -23,9 +25,17 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
 
+  process store_geometry: :original
+  process :extract_exifs
   version :full do
     process :optimize
     resize_to_fit(1920, 1400)
+    process store_geometry: :full
+  end
+
+  version :social do
+    resize_to_fit(1200, 630)
+    process store_geometry: :social
   end
 
   version :thumbnail do
@@ -46,6 +56,43 @@ class ImageUploader < CarrierWave::Uploader::Base
         c.quality '80'
         c.depth '8'
         c.interlace 'plane'
+      end
+      img
+    end
+  end
+
+  def store_geometry(version)
+    manipulate! do |img|
+      geometries = model.geometries || {}
+      geometries.merge!("#{version}"=> "#{img['width']}x#{img['height']}")
+      model.geometries = geometries
+      img
+    end
+  end
+
+  def extract_exifs
+    manipulate! do |img|
+      begin
+        infos = EXIFR::JPEG.new(open(img.path))
+        model.taken_at = infos.date_time
+        exifs = {}
+        exifs = infos.to_hash
+        exifs['gps'] = "#{infos.gps.latitude},#{infos.gps.longitude}" if infos.gps
+        xmp = XMP.parse(infos)
+        if xmp
+          xmp.namespaces.each do |namespace_name|
+            name = namespace_name
+            exifs[name] = {}
+            namespace = xmp.send(namespace_name)
+            namespace.attributes.each do |attr|
+              exifs[name][attr] = namespace.send(attr)
+            end
+          end
+        end
+        model.exifs = exifs
+      rescue Exception => e
+        puts e.inspect
+        Raven.capture_exception(e)
       end
       img
     end

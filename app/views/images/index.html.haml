@@ -1,11 +1,11 @@
 #images.container
-  %h1 Studio Cui Cui
+  %h1= @event.name
   .row
     .col-xs-12
       .images{data: { event: 'event' } }
         - @images.each do |image|
           .col-xs-4.col-sm-3.col-md-2.col-lg-2
-            = link_to image_path(image) do
+            = link_to [@client, @event, image] do
               = image_tag image.url(:thumbnail), class: 'image img-responsive', size: '250x200'
     #new-images
       = link_to '#end' do

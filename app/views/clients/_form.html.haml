@@ -1,0 +1,4 @@
+%h1= @event.name
+= simple_form_for [@event, @client] do |f|
+  = f.input :email, input_html: { autofocus: :autofocus, autocomplete: :off }
+  = f.submit 'Go', class: 'btn btn-primary'

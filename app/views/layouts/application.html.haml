@@ -12,6 +12,7 @@
     = yield(:head)
     = csrf_meta_tags
   %body{ class: body_class, data: {pusher: { key: Pusher.key, cluster: (ENV['PUSHER_CLUSTER'] || 'eu')}} }
+    = render 'layouts/flashs'
     = yield
     = render 'layouts/async_js', path: 'application'
     = yield(:javascript)

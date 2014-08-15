@@ -1,7 +1,6 @@
 # ImagesController
 class ImagesController < ApplicationController
-
-  skip_before_action  :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def new
     @image = Image.new
@@ -38,8 +37,16 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @image = Image.find_by_md5(params[:id])
-    @image = Image.find(Image.where('image IS NOT NULL').pluck(:id).sample) if params[:id] == 'random'
+    if params[:client_id]
+      @client = Client.find(params[:client_id])
+      @event = @client.events.find(params[:event_id])
+      @image = @event.images.find_by_md5(params[:id])
+    else
+      @image = Image.find_by_md5(params[:id])
+      @image = Image.find(
+        Image.where('image IS NOT NULL').pluck(:id).sample
+      ) if params[:id] == 'random'
+    end
     render nothing: true, status: :not_found if @image.nil?
   end
 
@@ -52,7 +59,9 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.where('image IS NOT NULL').order(:taken_at)
+    @client = Client.find(params[:client_id])
+    @event = @client.events.find(params[:event_id])
+    @images = @event.images.where('image IS NOT NULL').order(:taken_at)
   end
 
   def image_params

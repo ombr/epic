@@ -42,5 +42,13 @@ module Epic
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.action_mailer.default_url_options = { host: ENV['DOMAIN'] }
+    config.action_mailer.smtp_settings = {
+      address: ENV['SMTP_ADDRESS'],
+      authentication: :plain,
+      domain: ENV['DOMAIN'],
+      password: ENV['SMTP_PASSWORD'],
+      port: ENV['SMTP_PORT'],
+      user_name: ENV['SMTP_USERNAME']
+    }
   end
 end

@@ -37,9 +37,10 @@ gem 'sentry-raven'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'pusher'
 gem 'font-awesome-rails'
-gem 'exifr'
+gem 'exifr', github: 'remvee/exifr'
 gem 'xmp', github: 'jkraemer/xmp'
 gem 'devise'
+gem 'friendly_id'
 gem 'activeadmin', github: 'gregbell/active_admin'
 
 group :development do
@@ -57,7 +58,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara-webkit', '>= 1.0.0'
+  #gem 'capybara-webkit', '>= 1.0.0'
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'fakeweb'
   gem 'database_cleaner'
   gem 'formulaic'
   gem 'launchy'

@@ -9,6 +9,7 @@ module ::Guard
 
     def run_on_changes(paths)
       paths.each do |path|
+        puts path
         Resque.enqueue ImageUpload, path
       end
     end

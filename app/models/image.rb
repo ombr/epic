@@ -1,7 +1,11 @@
 # Image
 class Image < ActiveRecord::Base
+  has_and_belongs_to_many :events
+
   mount_uploader :original, FileUploader
   mount_uploader :image, ImageUploader
+
+  before_save :create_events
 
   def url(version)
     return image.url version if image?
@@ -10,29 +14,23 @@ class Image < ActiveRecord::Base
     end
   end
 
-  def extract_xmp image
-    infos = EXIFR::JPEG.new(image)
-    self.exifs = infos.to_hash
-    xmp = XMP.parse(infos)
-    xmp.namespaces.each do |namespace_name|
-      self.exifs[namespace_name] = {}
-      namespace = xmp.send(namespace_name)
-      namespace.attributes.each do |attr|
-        self.exifs[namespace_name][attr] = namespace.send(attr)
-      end
+  def events_name
+    names = exifs.try(:[], 'dc').try(:[], 'subject')
+    return [] if names.nil?
+    names
+  end
+
+  def create_events
+    events_name.each do |name|
+      event = Event.find_or_create_by(name: name)
+      events << event unless events.include? event
     end
   end
 
-  def events
-    eval(exifs['dc'])['subject']
-  end
-
   def process
-    file = open(original.url)
-    self.image = file
-    extract_xmp file
+    self.image = open(original.url)
     save!
-    Pusher.trigger_async('event', 'new-image', {}) if Pusher.key.present?
+    # Pusher.trigger_async('event', 'new-image', {}) if Pusher.key.present?
   end
 
   def self.create_from_path path
@@ -51,6 +49,7 @@ class Image < ActiveRecord::Base
   end
 
   def self.upload(path)
+    puts path
     return unless File.exist?(path)
     file = File.open(path)
     md5 = Digest::MD5.file(path).hexdigest
@@ -68,6 +67,8 @@ class Image < ActiveRecord::Base
           }
         }
       })
+    else
+      puts "#{response.code}: #{path}"
     end
   end
 
