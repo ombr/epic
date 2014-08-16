@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :orders, only: [:destroy, :create]
+
   resources :images, only: [:create, :show] do
     collection do
       get :add

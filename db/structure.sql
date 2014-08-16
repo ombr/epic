@@ -80,7 +80,7 @@ ALTER SEQUENCE active_admin_comments_id_seq OWNED BY active_admin_comments.id;
 
 
 --
--- Name: clients; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: clients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE clients (
@@ -93,7 +93,7 @@ CREATE TABLE clients (
 
 
 --
--- Name: clients_events; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: clients_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE clients_events (
@@ -213,7 +213,7 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: events_images; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: events_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE events_images (
@@ -243,7 +243,7 @@ ALTER SEQUENCE events_images_id_seq OWNED BY events_images.id;
 
 
 --
--- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE friendly_id_slugs (
@@ -309,6 +309,39 @@ CREATE SEQUENCE images_id_seq
 --
 
 ALTER SEQUENCE images_id_seq OWNED BY images.id;
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE orders (
+    id integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    client_id integer,
+    event_id integer,
+    image_id integer
+);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
 
 
 --
@@ -450,6 +483,13 @@ ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY orders ALTER COLUMN id SET DEFAULT nextval('orders_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::regclass);
 
 
@@ -469,7 +509,7 @@ ALTER TABLE ONLY active_admin_comments
 
 
 --
--- Name: clients_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: clients_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY clients_events
@@ -477,7 +517,7 @@ ALTER TABLE ONLY clients_events
 
 
 --
--- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY clients
@@ -493,7 +533,7 @@ ALTER TABLE ONLY delayed_jobs
 
 
 --
--- Name: events_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: events_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY events_images
@@ -509,7 +549,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY friendly_id_slugs
@@ -522,6 +562,14 @@ ALTER TABLE ONLY friendly_id_slugs
 
 ALTER TABLE ONLY images
     ADD CONSTRAINT images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -569,59 +617,66 @@ CREATE INDEX index_active_admin_comments_on_resource_type_and_resource_id ON act
 
 
 --
--- Name: index_clients_events_on_event_id_and_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_clients_events_on_event_id_and_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_clients_events_on_event_id_and_client_id ON clients_events USING btree (event_id, client_id);
 
 
 --
--- Name: index_clients_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_clients_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_clients_on_slug ON clients USING btree (slug);
 
 
 --
--- Name: index_events_images_on_event_id_and_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_events_images_on_event_id_and_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_images_on_event_id_and_image_id ON events_images USING btree (event_id, image_id);
 
 
 --
--- Name: index_events_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_events_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_events_on_slug ON events USING btree (slug);
 
 
 --
--- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
 
 
 --
--- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON friendly_id_slugs USING btree (slug, sluggable_type, scope);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_orders_on_client_id_and_event_id_and_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_orders_on_client_id_and_event_id_and_image_id ON orders USING btree (client_id, event_id, image_id);
 
 
 --
@@ -686,3 +741,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140815112958');
 INSERT INTO schema_migrations (version) VALUES ('20140815115747');
 
 INSERT INTO schema_migrations (version) VALUES ('20140815124149');
+
+INSERT INTO schema_migrations (version) VALUES ('20140815164954');
+

@@ -3,6 +3,11 @@ ActiveAdmin.register Client do
     selectable_column
     column :id
     column :email
+    column :orders do |client|
+      link_to [:admin, :orders, {q: { client_id_eq: client.id } }] do
+        client.orders.count.to_s
+      end
+    end
     actions
   end
   show do
@@ -13,6 +18,12 @@ ActiveAdmin.register Client do
             event.name
           end
         end.join(' ').html_safe
+      end
+
+      row :orders do |client|
+        link_to [:admin, :orders, {q: { client_id_eq: client.id } }] do
+          "Go to orders (#{client.orders.count})"
+        end
       end
 
       row :events_links do |client|

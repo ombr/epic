@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :client do
-    email "MyString"
+    email 'luc@boissaye.fr'
   end
 end
