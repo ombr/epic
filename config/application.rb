@@ -45,7 +45,7 @@ module Epic
     config.action_mailer.smtp_settings = {
       address: ENV['SMTP_ADDRESS'],
       authentication: :plain,
-      domain: ENV['DOMAIN'],
+      domain: ENV['SMTP_DOMAIN'],
       password: ENV['SMTP_PASSWORD'],
       port: ENV['SMTP_PORT'],
       user_name: ENV['SMTP_USERNAME']
