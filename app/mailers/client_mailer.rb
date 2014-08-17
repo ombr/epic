@@ -3,6 +3,6 @@ class ClientMailer < ActionMailer::Base
   def send_event_link(client, event)
     @client = client
     @event = event
-    mail to: client.email, subject: "Photos #{event.name}"
+    mail to: client.email, subject: "Photos Studio Cui Cui : #{event.name}"
   end
 end
