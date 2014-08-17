@@ -10,7 +10,7 @@ class ClientsController < ApplicationController
     @client.events << @event unless @client.events.include?(@event)
     if @client.save
       ClientMailer.send_event_link(@client, @event).deliver
-      redirect_to new_event_client_path(event_id: @event), flash: { success: 'Email has been registerd' }
+      redirect_to new_event_client_path(event_id: @event), flash: { success: 'Un message vous a été envoyé.' }
     else
       render :new
     end
