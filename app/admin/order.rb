@@ -20,21 +20,13 @@ ActiveAdmin.register Order do
   end
   show do
     attributes_table do
-      row :events do |client|
-        client.events.map do |event|
-          link_to [:admin, event] do
-            event.name
-          end
-        end.join(' ').html_safe
+      row :download do |order|
+        link_to order.image.original.url(query: {'response-content-disposition' => 'attachment'}), target: '_blank' do
+          'download'
+        end
       end
-
-      row :events_links do |client|
-        client.events.map do |event|
-          link_to client_event_images_url(client_id: client, event_id: event) do
-            "#{event.name} (#{client_event_images_url(client_id: client, event_id: event)})"
-          end
-        end.join(' ').html_safe
-      end
+      row :event
+      row :client
     end
     active_admin_comments
   end

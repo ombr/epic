@@ -15,6 +15,10 @@ class Image < ActiveRecord::Base
     end
   end
 
+  def next event
+    event.images.where('taken_at > ?', taken_at).order('taken_at ASC').first
+  end
+
   def events_name
     names = exifs.try(:[], 'dc').try(:[], 'subject')
     return [] if names.nil?
@@ -50,7 +54,7 @@ class Image < ActiveRecord::Base
   end
 
   def self.upload(path)
-    puts path
+    Rails.logger.info path
     return unless File.exist?(path)
     file = File.open(path)
     md5 = Digest::MD5.file(path).hexdigest
@@ -69,7 +73,7 @@ class Image < ActiveRecord::Base
         }
       })
     else
-      puts "#{response.code}: #{path}"
+      Rails.logger.info "#{response.code}: #{path}"
     end
   end
 
