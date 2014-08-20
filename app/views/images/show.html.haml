@@ -2,16 +2,20 @@
   .image
     = image_tag @image.url(:full), class: 'img-responsive'
 - unless params[:id] == 'random'
-  .order
-    - if @order.new_record?
-      = simple_form_for @order do |f|
-        = f.input :event_id, as: :hidden
-        = f.input :client_id, as: :hidden
-        = f.input :image_id, as: :hidden
-        = f.submit 'Commander', class: 'btn btn-success'
-    - else
-      = link_to [@order, {client_id: @client}], method: :delete, class: 'btn btn-danger' do
-        Annuler ma commande
+  .actions
+    - if @event.download
+      = link_to @image.original.url(query: {'response-content-disposition' => 'attachment'}), target: '_blank', class: 'btn btn-primary' do
+        Telecharger
+    - if @event.order
+      - if @order.new_record?
+        = simple_form_for @order do |f|
+          = f.input :event_id, as: :hidden
+          = f.input :client_id, as: :hidden
+          = f.input :image_id, as: :hidden
+          = f.submit 'Commander', class: 'btn btn-success'
+      - else
+        = link_to [@order, {client_id: @client}], method: :delete, class: 'btn btn-danger' do
+          Annuler ma commande
   - if @next
     = link_to [@client, @event, @next], class: 'control next' do
       .fa.fa-angle-right

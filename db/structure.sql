@@ -189,7 +189,9 @@ CREATE TABLE events (
     name character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    slug character varying(255)
+    slug character varying(255),
+    download boolean DEFAULT false,
+    "order" boolean DEFAULT false
 );
 
 
@@ -744,3 +746,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140815124149');
 
 INSERT INTO schema_migrations (version) VALUES ('20140815164954');
 
+INSERT INTO schema_migrations (version) VALUES ('20140820105539');
+
+INSERT INTO schema_migrations (version) VALUES ('20140820105846');

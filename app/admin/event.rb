@@ -1,9 +1,11 @@
 ActiveAdmin.register Event do
-  permit_params :name
+  permit_params :download, :order
 
   index do
     selectable_column
     column :name
+    column :download
+    column :order
     column :created_at
     actions
   end
@@ -33,6 +35,13 @@ ActiveAdmin.register Event do
       end
     end
     active_admin_comments
+  end
+  form do |f|
+    f.inputs 'Event' do
+      f.input :download
+      f.input :order
+    end
+    f.actions
   end
 
   filter :name
