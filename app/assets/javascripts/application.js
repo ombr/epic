@@ -4,3 +4,6 @@
 //= require upload
 //= require pusher
 //= require flash_timeout
+//= require jquery.countdown
+//= require jquery.countdown-fr
+//= require countdown

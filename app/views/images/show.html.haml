@@ -14,8 +14,17 @@
           = f.input :image_id, as: :hidden
           = f.submit 'Commander', class: 'btn btn-success'
       - else
-        = link_to [@order, {client_id: @client}], method: :delete, class: 'btn btn-danger' do
-          Annuler ma commande
+        - if @order.created_at > 4.hours.ago
+          = link_to [@order, {client_id: @client}], method: :delete, class: 'btn btn-danger' do
+            Annuler ma commande
+            - date = @order.created_at + 4.hours
+            (avant
+            %abbr.countdown{data: {timestamp: date.utc.to_f*1000 }}
+              = l(date)
+            )
+        - else
+          %a.btn.btn-success.disabled
+            Votre commande a bien été prise en compte
   - if @next
     = link_to [@client, @event, @next], class: 'control next' do
       .fa.fa-angle-right

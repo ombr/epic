@@ -10,7 +10,9 @@ class OrdersController < ApplicationController
 
   def destroy
     @order = Order.find(params[:id])
-    @order.destroy if params[:client_id] == @order.client.slug
+    if params[:client_id] == @order.client.slug and @order.created_at > 4.hours.ago
+      @order.destroy
+    end
     redirect_to [@order.client, @order.event, @order.image]
   end
 
