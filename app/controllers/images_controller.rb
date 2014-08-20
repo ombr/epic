@@ -42,6 +42,7 @@ class ImagesController < ApplicationController
       @event = @client.events.find(params[:event_id])
       @image = @event.images.find_by_md5(params[:id])
       @next = @image.next(@event)
+      @previous = @image.previous(@event)
       @order = @image.orders.where(client_id: @client).first
       @order ||= Order.new client: @client, event: @event, image: @image
     else

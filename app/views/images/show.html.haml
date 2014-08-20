@@ -13,11 +13,18 @@
       = link_to [@order, {client_id: @client}], method: :delete, class: 'btn btn-danger' do
         Annuler ma commande
   - if @next
-    = link_to [@client, @event, @next], class: 'next' do
+    = link_to [@client, @event, @next], class: 'control next' do
       .fa.fa-angle-right
   - else
-    = link_to client_event_images_path(client_id: @client, event_id: @event), class: 'next' do
+    = link_to client_event_images_path(client_id: @client, event_id: @event), class: 'control next' do
       .fa.fa-angle-right
+
+  - if @previous
+    = link_to [@client, @event, @previous], class: 'control previous' do
+      .fa.fa-angle-left
+  - else
+    = link_to client_event_images_path(client_id: @client, event_id: @event), class: 'control previous' do
+      .fa.fa-angle-left
 
   = link_to client_event_images_path(client_id: @client, event_id: @event), class: 'btn btn-default btn-lg back' do
     .fa.fa-home

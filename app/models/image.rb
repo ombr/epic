@@ -18,6 +18,9 @@ class Image < ActiveRecord::Base
   def next event
     event.images.where('taken_at > ?', taken_at).order('taken_at ASC').first
   end
+  def previous event
+    event.images.where('taken_at < ?', taken_at).order('taken_at DESC').first
+  end
 
   def events_name
     names = exifs.try(:[], 'dc').try(:[], 'subject')
